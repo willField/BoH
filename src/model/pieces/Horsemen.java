@@ -13,15 +13,13 @@ public class Horsemen extends Piece {
 
 	private int strength;
 	private int moves;
-	private Image image;
 	private ImageIcon icon;
 	private Player player;
 	
 	public Horsemen(Player player) {
 		this.setPlayer(player);
 		try {
-			image = ImageIO.read(new File("src/resources/horse.png"));
-			icon = new ImageIcon(image);
+			icon = new ImageIcon(ImageIO.read(getClass().getResource("/horse.png")));
 		} catch(IOException e){
 		
 		}

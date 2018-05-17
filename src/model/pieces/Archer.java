@@ -13,15 +13,13 @@ public class Archer extends Piece {
 
 	private int strength;
 	private int moves;
-	private Image image;
 	private ImageIcon icon;
 	private Player player;
 	
 	public Archer(Player player) {
 		this.setPlayer(player);
 		try {
-			image = ImageIO.read(new File("src/resources/bow.png"));
-			icon = new ImageIcon(image);
+			icon = new ImageIcon(ImageIO.read(getClass().getResource("/bow.png")));
 		} catch(IOException e){
 		
 		}

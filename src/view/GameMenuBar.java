@@ -16,6 +16,7 @@ import controllers.MenuControl;
 public class GameMenuBar extends JMenuBar{
 
 	private JButton back = new JButton("Back");
+	private JButton back3 = new JButton("Back 3 Turns");
 	
 	GameMenuBar(JFrame frame, JPanel panel){
 		JToolBar tb = new JToolBar();
@@ -26,12 +27,21 @@ public class GameMenuBar extends JMenuBar{
 		back.setForeground(Color.RED);
 		back.addActionListener(new MenuControl(frame , panel));
 		back.addMouseListener(new ButtonHover(back, Color.RED));
+		back3.setBorder(new CompoundBorder(new LineBorder(Color.RED),
+				new EmptyBorder(10,10,10,10)));
+		back3.setFocusable(false);
+		back3.setBackground(null);
+		back3.setForeground(Color.RED);
+		back3.addActionListener(new MenuControl(frame , panel));
+		back3.addMouseListener(new ButtonHover(back3, Color.RED));
 		tb.setBackground(Color.BLACK);
 		tb.setBorderPainted(false);
 		tb.setBorder(new EmptyBorder(10,10,10,10));
 		this.setBackground(Color.BLACK);
 		tb.setRollover(true);
 		tb.add(back);
+		tb.addSeparator();
+		tb.add(back3);
 		tb.setFloatable(false);
 		this.add(tb);
 		this.setBorderPainted(false);

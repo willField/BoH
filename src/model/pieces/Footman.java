@@ -20,8 +20,7 @@ public class Footman extends Piece {
 	public Footman(Player player) {
 		this.setPlayer(player);
 		try {
-			image = ImageIO.read(new File("src/resources/helmet.png"));
-			icon = new ImageIcon(image);
+			icon = new ImageIcon(ImageIO.read(getClass().getResource("/helmet.png")));
 		} catch(IOException e){
 		
 		}

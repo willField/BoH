@@ -35,6 +35,7 @@ public class HexButton extends JButton{
 	static int yPoints[] = {5, aSide+5, 95-aSide, 95, 95-aSide, aSide+5};
     static BasicStroke stroke = new BasicStroke ( 5f );
     private Color color = Color.RED;
+    private Color borderColor = Color.DARK_GRAY;
     private int x, y;
     private Piece piece;
    
@@ -60,13 +61,17 @@ public class HexButton extends JButton{
 	public void setColor(Color color) {
 		this.color = color;
 	}
+	
+	public void setBorderColor(Color borderColor) {
+		this.borderColor = borderColor;
+	}
 
 	
 	public void drawHex(Graphics2D g, Color color) {
 		g.setStroke(stroke);
 		g.setColor (color);
         g.fillPolygon ( xPoints, yPoints, 6 );
-        g.setColor (Color.DARK_GRAY);
+        g.setColor (borderColor);
         g.drawPolygon ( xPoints, yPoints, 6 );
         g.setBackground(color);
 	}

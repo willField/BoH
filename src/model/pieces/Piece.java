@@ -35,5 +35,9 @@ public class Piece {
 		this.location = location;
 	}
 	
+	public Player getPlayer() {
+		return player;
+	}
+	
 	
 }

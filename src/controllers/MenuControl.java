@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import model.GameEngine;
 import model.Player;
 import view.GamePanel;
+import view.GameBoardUtilities;
 import view.MenuPanel;
 import view.NewGamePanel;
 import view.SettingsPanel;
@@ -21,6 +22,7 @@ public class MenuControl implements ActionListener{
 	private NewGamePanel ngp;
 	private String p1Name, p2Name;
 	private int gameSize, numPieces;
+	private GameEngine ge;
 	
 	public MenuControl(JFrame frame, JPanel panel){
 		this.frame= frame;
@@ -51,8 +53,9 @@ public class MenuControl implements ActionListener{
 			ge.addPlayer(new Player(ngp.getP1Name()));
 			ge.addPlayer(new Player(ngp.getP2Name()));
 			GamePanel gp = new GamePanel(frame, ngp.getGameSize(), ngp.getCoords());
-			new GameControl(ge, gp);
+			ge.setGc(new GameControl(ge, gp));
 			changePanel(gp);
+			
 		}
 		
 		if(arg0.getActionCommand().equals("Settings")) {
@@ -72,6 +75,9 @@ public class MenuControl implements ActionListener{
 			changePanel(new MenuPanel(frame));
 			frame.setSize(500, 500);
 			frame.setLocationRelativeTo(null);
+		}
+		
+		if(arg0.getActionCommand().equals("Back 3 Turns")) {
 		}
 		
 		if(arg0.getActionCommand().equals("coords")) {
