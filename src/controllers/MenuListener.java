@@ -104,6 +104,7 @@ public class MenuListener implements ActionListener{
 				gp.getFocus().getPiece().setStrength(0);
 				gu.recolor();
 				gu.removeNonPieceListeners();
+				gu.removeNonPlayerPieceListeners(gp.getFocus().getPiece().getPlayer());
 				gp.getFocus().setColor(Color.BLUE);
 				gp.getMc().showAvailableMoves(gp.getFocus(), gp);
 				gu.transferFocus();

@@ -52,7 +52,10 @@ public class TurnListener implements MouseListener {
 				gu.removeNonPieceListeners();
 				
 			}
+			
 			gp.setFocus(hex);
+			gu.removeNonPieceListeners();
+			gu.removeNonPlayerPieceListeners(hex.getPiece().getPlayer());
 			hex.setColor(Color.BLUE);
 			MovementControl mc = new MovementControl(gp, tc);
 			mc.showAvailableMoves(hex, gp);

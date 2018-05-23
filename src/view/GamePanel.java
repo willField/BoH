@@ -7,6 +7,9 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import controllers.MovementControl;
 
@@ -32,6 +35,7 @@ public class GamePanel extends JPanel{
 		this.frame = frame;
 		this.boardSize = boardSize;
 		board = new HexButton[boardSize][boardSize];
+		this.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10), new LineBorder(Color.RED)));
 		this.setBackground(Color.BLACK);
 		this.setLayout(new BorderLayout());
 		loadBoard();
@@ -39,7 +43,7 @@ public class GamePanel extends JPanel{
 		this.add(new GameMenuBar(frame, this), BorderLayout.NORTH);
 		this.add(textArea, BorderLayout.SOUTH);
 				
-		frame.setSize(new Dimension(boardSize*91, boardSize * 88 + 65));
+		frame.setSize(new Dimension(boardSize*91+45, boardSize * 88 + 80));
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
@@ -79,8 +83,8 @@ public class GamePanel extends JPanel{
 
 	private void loadBoard() {
 		
-		int offsetX = 0; 
-		int offsetY = 80;
+		int offsetX = 20; 
+		int offsetY = 140;
 		
 		if(boardSize % 4 == 3) {
 			offsetX = 45;
@@ -100,16 +104,16 @@ public class GamePanel extends JPanel{
 			if(boardSize % 4 != 3) {
 
 				if(i%2 == 0) {
-	                offsetX = -45;
+	                offsetX = -25;
 	            } else {
-	                offsetX = 0;
+	                offsetX = 20;
 	            }
 			}
 			else {
 				if(i%2 == 0) {
-	                offsetX = 0;
+	                offsetX = 20;
 	            } else {
-	                offsetX = 45;
+	                offsetX = 65;
 	            }
 			}
             offsetY += 75;

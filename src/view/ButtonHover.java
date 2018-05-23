@@ -21,6 +21,14 @@ public class ButtonHover implements MouseListener{
 	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
+		if(button.getBackground() == colorHover) {
+			button.setBackground(null);
+			button.setForeground(color);
+		}
+		else {
+			button.setBackground(colorHover);
+			button.setForeground(Color.WHITE);
+		}
 	}
 
 	@Override
