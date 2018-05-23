@@ -6,6 +6,8 @@ import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
+import model.Player;
+
 public class GameBoardUtilities {
 
 	private GamePanel gp;
@@ -36,6 +38,23 @@ public class GameBoardUtilities {
 
 			}
 		}
+	}
+
+	public void removeNonPlayerPieceListeners(Player player) {
+		for (int i = 0; i < boardSize; i++) {
+			for (int j = 0; j < boardSize; j++) {
+				if (gp.getBoard()[i][j].getPiece() != null) {
+					if (gp.getBoard()[i][j].getPiece().getPlayer() != player) {
+						MouseListener ml[] = gp.getBoard()[i][j].getMouseListeners();
+						for (int k = 1; k < ml.length; k++) {
+							gp.getBoard()[i][j].removeMouseListener(ml[k]);
+
+						}
+					}
+				}
+			}
+		}
+
 	}
 
 	public void removeNonPieceListeners() {

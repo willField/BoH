@@ -8,18 +8,24 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import controllers.HistoryControl;
+import controllers.MovementControl;
 
 public class GamePanel extends JPanel{
 	
 	private JFrame frame;
 	private HexButton[][] board;
+	private MovementControl mc;
 	
+	public void setBoard(HexButton[][] board) {
+		this.board = board;
+	}
+
 	private int boardSize;
 	private Boolean coords;
 	private ArrayList<HexButton> startingLocations = new ArrayList<HexButton>();
 	private ArrayList<HexButton> pieceLocations;
 	private GameTextArea textArea = new GameTextArea();
+	private HexButton focus;
 
 	public GamePanel(JFrame frame, int boardSize, Boolean coords){
 		this.coords = coords;
@@ -45,7 +51,7 @@ public class GamePanel extends JPanel{
 		int xVisibleStart = (boardSize - xVisibleLength)/2;
 		int xBStart = xVisibleLength + xVisibleStart;
 		
-		// DO THIS (only works for boardSize 9 currently)
+		// TODO: Board crop: (only works for boardSize 9 currently)
 		// only odd values of boardSize will work, needs adjusting for 5, 7, 11, 13, 15
 		
 		for(int i = 0; i < boardSize; i++) {
@@ -73,8 +79,8 @@ public class GamePanel extends JPanel{
 
 	private void loadBoard() {
 		
-		int offsetX = 0;
-		int offsetY = 50;
+		int offsetX = 0; 
+		int offsetY = 80;
 		
 		if(boardSize % 4 == 3) {
 			offsetX = 45;
@@ -136,6 +142,22 @@ public class GamePanel extends JPanel{
 	
 	public GameTextArea getTextArea() {
 		return textArea;
+	}
+
+	public HexButton getFocus() {
+		return focus;
+	}
+
+	public void setFocus(HexButton focus) {
+		this.focus = focus;
+	}
+
+	public MovementControl getMc() {
+		return mc;
+	}
+
+	public void setMc(MovementControl mc) {
+		this.mc = mc;
 	}
 	
 	

@@ -22,9 +22,12 @@ public class MovementListener implements MouseListener {
 	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		button.setColor(Color.RED);
-		MovementControl mc = new MovementControl(gp, tc);
-		mc.movePiece(button, check);
+		
+		if(button.getColor() == Color.BLUE) {
+			button.setColor(Color.RED);
+			MovementControl mc = new MovementControl(gp, tc);
+			mc.movePiece(button, check);
+		}
 	}
 
 	@Override

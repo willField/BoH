@@ -14,9 +14,13 @@ public class GameEngine {
 	private static int NUM_PIECES;
 	
 	private ArrayList<Player> players = new ArrayList<Player>();
-	private ArrayList<ArrayList<Player>> playerHistory = new ArrayList<ArrayList<Player>>();
 	
 	
+	
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
+	}
+
 	private GameControl gc;
 	
 	public GameEngine(int GAME_SIZE, int NUM_PIECES){
@@ -25,13 +29,6 @@ public class GameEngine {
 		
 	}
 	
-	public void setPlayerHistory() {
-		players = playerHistory.get(0);
-	}
-	
-	public void addPlayerHistory() {
-		playerHistory.add(players);
-	}
 	public void addPlayerStartingPieces() {
 		for(Player player : players) {
 			

@@ -1,33 +1,34 @@
 package controllers;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.ListIterator;
+
+import javax.swing.JFrame;
 
 import model.GameEngine;
+import model.Memento;
 import model.Player;
 import model.pieces.Piece;
 import view.GamePanel;
-import view.GameBoardUtilities;
-import view.GameMenuBar;
 import view.HexButton;
 
 public class GameControl {
 
 	private GameEngine ge;
 	private GamePanel gp;
+	private JFrame frame;
 	private Player currentPlayer;
-	private TurnControl tc;
-	private MenuControl mc;
+	private int test = 0;
+	private final ArrayList<Memento> history = new ArrayList<Memento>();
 	
-	GameControl(GameEngine ge, GamePanel gp){
+	GameControl(GameEngine ge, GamePanel gp, JFrame frame){
 		this.ge = ge;
 		this.gp = gp;
+		this.frame = frame;
 		
 		assignPlayerStartPieces();
 		playerTurn(ge.getPlayers().get(0));
-		
-		
 	}
 	
 	public void assignPlayerStartPieces() {
@@ -42,7 +43,7 @@ public class GameControl {
 		}
 		
 	}
-	
+	 
 	public Player nextPlayer(Player player) {
 		
 		for(int i = 0; i < ge.getPlayers().size()-1; i++) {
@@ -53,18 +54,13 @@ public class GameControl {
 		return ge.getPlayers().get(0);
 	}
 	
-	public void updatePlayerPieces() {
-		
-	}
-	
 	public void nextTurn() {
-		ge.addPlayerHistory();
 		playerTurn(nextPlayer(currentPlayer));
 	}
 	
 	public void playerTurn(Player player) {
 		this.setCurrentPlayer(player);
-		tc = new TurnControl(currentPlayer, ge, gp);
+		new TurnControl(currentPlayer, ge, gp);
 	}
 	
 	public void updateTextArea(String name) {

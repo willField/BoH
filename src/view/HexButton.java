@@ -54,6 +54,16 @@ public class HexButton extends JButton{
     	
 	}
     
+    public Boolean hasPiece() {
+    	if(piece == null) {
+    		return false;
+    	}
+    	else
+    	{
+    		return true;
+    	}
+    }
+    
     public Color getColor() {
 		return color;
 	}

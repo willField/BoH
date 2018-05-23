@@ -13,9 +13,8 @@ import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.event.MenuListener;
 
-import controllers.MenuControl;
+import controllers.MenuListener;
 
 public class NewGamePanel extends JPanel{
 	
@@ -52,7 +51,7 @@ public class NewGamePanel extends JPanel{
 		this.setBackground(Color.BLACK);
 		this.setLayout(new GridLayout(6,2,20,20));
 		
-		MenuControl ml = new MenuControl(frame, this);
+		MenuListener ml = new MenuListener(frame, this);
 		showCoords.setFocusable(false);
 		showCoords.setActionCommand("coords");
 		showCoords.addActionListener(ml);
@@ -80,7 +79,7 @@ public class NewGamePanel extends JPanel{
 	
 	private JButton createButton(String title, Color color) {
 		JButton button = new JButton(title);
-		MenuControl ml = new MenuControl(frame, this);
+		MenuListener ml = new MenuListener(frame, this);
 		ButtonHover bh = new ButtonHover(button, color);
 		
 		button.setBackground(null);
@@ -102,7 +101,7 @@ public class NewGamePanel extends JPanel{
 	
 	private JTextField createField(String title, Color color) {
 		JTextField tf = new JTextField();
-		MenuControl ml = new MenuControl(frame, this);
+		MenuListener ml = new MenuListener(frame, this);
 		tf.setActionCommand(title);
 		tf.setCaretColor(color);
 		tf.setBackground(null);

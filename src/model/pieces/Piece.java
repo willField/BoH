@@ -15,8 +15,8 @@ import model.Player;
  */
 public class Piece {
 	
-	private int strength;
-	private int moves;
+	private int strength = 0;
+	private int moves = 0;
 	private Image image;
 	private ImageIcon icon;
 	private int[] location;
@@ -37,6 +37,18 @@ public class Piece {
 	
 	public Player getPlayer() {
 		return player;
+	}
+	public int getStrength() {
+		return strength;
+	}
+	public void setStrength(int strength) {
+		this.strength = strength;
+	}
+	public int getMoves() {
+		return moves;
+	}
+	public void setMoves(int moves) {
+		this.moves = moves;
 	}
 	
 	

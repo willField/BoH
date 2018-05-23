@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import controllers.MenuControl;
+import controllers.MenuListener;
 
 public class SettingsPanel extends JPanel{
 
@@ -21,7 +21,7 @@ public class SettingsPanel extends JPanel{
 	
 	public SettingsPanel(JFrame frame) {
 		this.frame = frame;
-		MenuControl ml = new MenuControl(frame, this);
+		MenuListener ml = new MenuListener(frame, this);
 		
 		this.setBackground(Color.BLACK);
 		this.setBorder(new EmptyBorder(100,100,100,100));
@@ -40,7 +40,7 @@ public class SettingsPanel extends JPanel{
 	
 	private JButton createButton(String title, Color color) {
 		JButton button = new JButton(title);
-		MenuControl ml = new MenuControl(frame, this);
+		MenuListener ml = new MenuListener(frame, this);
 		ButtonHover bh = new ButtonHover(button, color);
 		button.setBackground(null);
 		button.setForeground(color);

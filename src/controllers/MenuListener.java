@@ -1,38 +1,42 @@
 package controllers;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.GameEngine;
 import model.Player;
-import view.GamePanel;
 import view.GameBoardUtilities;
+import view.GamePanel;
 import view.MenuPanel;
 import view.NewGamePanel;
 import view.SettingsPanel;
 
-public class MenuControl implements ActionListener{
+public class MenuListener implements ActionListener{
 
 	private JFrame frame;
 	private JPanel panel;
 	private NewGamePanel ngp;
-	private String p1Name, p2Name;
-	private int gameSize, numPieces;
-	private GameEngine ge;
+	private GamePanel gp;
 	
-	public MenuControl(JFrame frame, JPanel panel){
+	public MenuListener(JFrame frame, JPanel panel){
 		this.frame= frame;
 		this.panel = panel;
 	}
 	
-	public MenuControl(JFrame frame, NewGamePanel ngp) {
+	public MenuListener(JFrame frame, NewGamePanel ngp) {
 		this.frame = frame;
 		this.ngp = ngp;
 		this.panel = (JPanel)ngp;
+	}
+	
+	public MenuListener(GamePanel gp) {
+		this.gp = gp;
 	}
 	
 	public void changePanel(JPanel newPanel) {
@@ -45,16 +49,23 @@ public class MenuControl implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getActionCommand().equals("New Game")) {
 			changePanel(new NewGamePanel(frame));
+		
 		}
 		
 		if(arg0.getActionCommand().equals("Start Game")) {	
+			if(ngp.getP1Name().equals("")|| ngp.getP2Name().equals("")) {
+				JOptionPane.showMessageDialog(ngp, "Please enter names for the players.",
+						"Player Names", JOptionPane.ERROR_MESSAGE);
+			}
 			
-			GameEngine ge = new GameEngine(ngp.getGameSize(),ngp.getNumPieces());
-			ge.addPlayer(new Player(ngp.getP1Name()));
-			ge.addPlayer(new Player(ngp.getP2Name()));
-			GamePanel gp = new GamePanel(frame, ngp.getGameSize(), ngp.getCoords());
-			ge.setGc(new GameControl(ge, gp));
-			changePanel(gp);
+			else {
+				GameEngine ge = new GameEngine(ngp.getGameSize(),ngp.getNumPieces());
+				ge.addPlayer(new Player(ngp.getP1Name()));
+				ge.addPlayer(new Player(ngp.getP2Name()));
+				gp = new GamePanel(frame, ngp.getGameSize(), ngp.getCoords());
+				ge.setGc(new GameControl(ge, gp, frame));
+				changePanel(gp);
+			}
 			
 		}
 		
@@ -77,7 +88,51 @@ public class MenuControl implements ActionListener{
 			frame.setLocationRelativeTo(null);
 		}
 		
-		if(arg0.getActionCommand().equals("Back 3 Turns")) {
+		if(arg0.getActionCommand().equals("Strength")) {
+			if(gp.getFocus() == null) {
+				JOptionPane.showMessageDialog(ngp, "You must select a piece before changing mode.",
+						"Unit Mode", JOptionPane.ERROR_MESSAGE);
+			}
+			else if(gp.getFocus().getPiece().getStrength() == 0){
+				gp.getFocus().getPiece().setStrength(1);
+				gp.getMc().showAvailableMoves(gp.getFocus(), gp);
+				GameBoardUtilities gu = new GameBoardUtilities(gp);
+				gu.transferFocus();
+			}
+			else{
+				GameBoardUtilities gu = new GameBoardUtilities(gp);
+				gp.getFocus().getPiece().setStrength(0);
+				gu.recolor();
+				gu.removeNonPieceListeners();
+				gp.getFocus().setColor(Color.BLUE);
+				gp.getMc().showAvailableMoves(gp.getFocus(), gp);
+				gu.transferFocus();
+			}
+		}
+		
+		if(arg0.getActionCommand().equals("Movement")) {
+			if(gp.getFocus() == null) {
+				JOptionPane.showMessageDialog(ngp, "You must select a piece before changing mode.",
+						"Unit Mode", JOptionPane.ERROR_MESSAGE);
+			}
+			else if(gp.getFocus().getPiece().getMoves() == 0){
+				gp.getFocus().getPiece().setMoves(1);
+				gp.getMc().showAvailableMoves(gp.getFocus(), gp);
+				GameBoardUtilities gu = new GameBoardUtilities(gp);
+				gu.transferFocus();
+			}
+			else{
+				GameBoardUtilities gu = new GameBoardUtilities(gp);
+				gp.getFocus().getPiece().setMoves(0);
+				gu.recolor();
+				gu.removeNonPieceListeners();
+				gp.getFocus().setColor(Color.BLUE);
+				gp.getMc().showAvailableMoves(gp.getFocus(), gp);
+				gu.transferFocus();
+			}
+		}
+		
+		if(arg0.getActionCommand().equals("Rewind")) {
 		}
 		
 		if(arg0.getActionCommand().equals("coords")) {

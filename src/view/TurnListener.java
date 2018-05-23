@@ -35,16 +35,24 @@ public class TurnListener implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 
+		
 		if(hex.getColor() == Color.BLUE) {
+			gu.recolor();
+			gu.transferFocus();
+			gu.removeNonPieceListeners();
+			gu.removeNonPlayerPieceListeners(hex.getPiece().getPlayer());
 			hex.setColor(Color.GREEN);
 		}
 		else {
 			for(HexButton other : hexes) {
+				// no idea what this is for
+				
 				gu.recolor();
 				gu.transferFocus();
 				gu.removeNonPieceListeners();
 				
 			}
+			gp.setFocus(hex);
 			hex.setColor(Color.BLUE);
 			MovementControl mc = new MovementControl(gp, tc);
 			mc.showAvailableMoves(hex, gp);
