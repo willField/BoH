@@ -10,11 +10,11 @@ import model.pieces.Pikeman;
 
 public class GameEngine {
 
-	private static int GAME_SIZE;
-	private static int NUM_PIECES;
+	private int GAME_SIZE;
+	private int NUM_PIECES;
 	
 	private ArrayList<Player> players = new ArrayList<Player>();
-	
+	private Player currentPlayer;
 	
 	
 	public void setPlayers(ArrayList<Player> players) {
@@ -24,8 +24,8 @@ public class GameEngine {
 	private GameControl gc;
 	
 	public GameEngine(int GAME_SIZE, int NUM_PIECES){
-		GameEngine.GAME_SIZE = GAME_SIZE;
-		GameEngine.NUM_PIECES = NUM_PIECES;
+		this.GAME_SIZE = GAME_SIZE;
+		this.NUM_PIECES = NUM_PIECES;
 		
 	}
 	
@@ -66,5 +66,21 @@ public class GameEngine {
 
 	public void setGc(GameControl gc) {
 		this.gc = gc;
+	}
+
+	public int getGAME_SIZE() {
+		return GAME_SIZE;
+	}
+
+	public int getNUM_PIECES() {
+		return NUM_PIECES;
+	}
+
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	public void setCurrentPlayer(Player currentPlayer) {
+		this.currentPlayer = currentPlayer;
 	}
 }

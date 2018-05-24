@@ -42,4 +42,5 @@ public class Horsemen extends Piece {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
+	
 }

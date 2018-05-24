@@ -43,4 +43,5 @@ public class Footman extends Piece {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
+	
 }

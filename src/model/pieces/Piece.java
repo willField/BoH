@@ -35,6 +35,11 @@ public class Piece {
 		this.location = location;
 	}
 	
+	@Override
+	public String toString() {
+		return this.getClass().getName();
+	}
+	
 	public Player getPlayer() {
 		return player;
 	}

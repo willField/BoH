@@ -1,13 +1,12 @@
 package controllers;
 
-import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JFrame;
 
 import model.GameEngine;
-import model.Memento;
+import model.GameState;
 import model.Player;
 import model.pieces.Piece;
 import view.GamePanel;
@@ -18,9 +17,9 @@ public class GameControl {
 	private GameEngine ge;
 	private GamePanel gp;
 	private JFrame frame;
+	private GameState gs;
 	private Player currentPlayer;
 	private int test = 0;
-	private final ArrayList<Memento> history = new ArrayList<Memento>();
 	
 	GameControl(GameEngine ge, GamePanel gp, JFrame frame){
 		this.ge = ge;
@@ -29,6 +28,21 @@ public class GameControl {
 		
 		assignPlayerStartPieces();
 		playerTurn(ge.getPlayers().get(0));
+	}
+	
+	GameControl(GameEngine ge, GamePanel gp, JFrame frame, GameState gs){
+		this.ge = ge;
+		this.gp = gp;
+		this.frame = frame;
+		this.gs = gs;
+		
+		restorePlayerPieceLocations();
+		for(Player player : ge.getPlayers()) {
+			if(player.getName() == gs.getPlayerTurn()) {
+				playerTurn(player);
+			}
+		}
+		
 	}
 	
 	public void assignPlayerStartPieces() {
@@ -40,6 +54,20 @@ public class GameControl {
 		
 		while(pieceIterator.hasNext() && buttonIterator.hasNext()) {
 			buttonIterator.next().setPiece(pieceIterator.next());
+		}
+		
+	}
+	
+	public void restorePlayerPieceLocations(){
+		ArrayList<int[]> xyLocations = gs.getPlayer1PieceLocations();
+		xyLocations.addAll(gs.getPlayer2PieceLocations());
+		
+		Iterator<Piece> pieceIterator = ge.getAllPlayerPieces().iterator();
+		Iterator<int[]> xyIterator = xyLocations.iterator();
+		
+		while(pieceIterator.hasNext() && xyIterator.hasNext()) {
+			int xy[] = xyIterator.next();
+			gp.getBoard()[xy[0]][xy[1]].setPiece(pieceIterator.next());
 		}
 		
 	}
@@ -60,6 +88,7 @@ public class GameControl {
 	
 	public void playerTurn(Player player) {
 		this.setCurrentPlayer(player);
+		ge.setCurrentPlayer(player);
 		new TurnControl(currentPlayer, ge, gp);
 	}
 	

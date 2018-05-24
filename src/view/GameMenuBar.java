@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import controllers.MenuListener;
+import model.GameEngine;
 
 public class GameMenuBar extends JMenuBar{
 
@@ -24,9 +25,10 @@ public class GameMenuBar extends JMenuBar{
 	private JButton rewind = new JButton("Rewind");
 	private JButton strength = new JButton("Strength");
 	private JButton movement = new JButton("Movement");
+	private JButton save = new JButton("Save Game");
 	
 	
-	GameMenuBar(JFrame frame, GamePanel panel){
+	GameMenuBar(JFrame frame, GamePanel panel, MenuListener ml){
 		JToolBar tb = new JToolBar();
 		back.setToolTipText("Exit to the Main Menu");
 		back.setBorder(new CompoundBorder(new LineBorder(Color.RED),
@@ -46,6 +48,13 @@ public class GameMenuBar extends JMenuBar{
 		rewind.addActionListener(new MenuListener(frame , panel));
 		rewind.addMouseListener(new ButtonHover(rewind, Color.RED));
 		
+		save.setBorder(new CompoundBorder(new LineBorder(Color.BLUE),
+				new EmptyBorder(10,10,10,10)));
+		save.setFocusable(false);
+		save.setBackground(null);
+		save.setForeground(Color.BLUE);
+		save.addActionListener(ml);
+		save.addMouseListener(new ButtonHover(save, Color.BLUE));
 		
 		JPanel unitModes = new JPanel();
 		unitModes.setBackground(null);
@@ -101,7 +110,8 @@ public class GameMenuBar extends JMenuBar{
 		tb.addSeparator();
 		tb.add(rewind);
 		tb.addSeparator();
-		
+		tb.add(save);
+		tb.addSeparator();
 		tb.add(unitModes);
 		tb.setFloatable(false);
 		this.add(tb);

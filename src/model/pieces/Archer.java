@@ -41,4 +41,5 @@ public class Archer extends Piece {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
+	
 }

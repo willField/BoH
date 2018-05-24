@@ -4,12 +4,19 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.GameEngine;
+import model.GameState;
 import model.Player;
 import view.GameBoardUtilities;
 import view.GamePanel;
@@ -23,6 +30,7 @@ public class MenuListener implements ActionListener{
 	private JPanel panel;
 	private NewGamePanel ngp;
 	private GamePanel gp;
+	private GameEngine ge;
 	
 	public MenuListener(JFrame frame, JPanel panel){
 		this.frame= frame;
@@ -59,14 +67,28 @@ public class MenuListener implements ActionListener{
 			}
 			
 			else {
-				GameEngine ge = new GameEngine(ngp.getGameSize(),ngp.getNumPieces());
+				ge = new GameEngine(ngp.getGameSize(),ngp.getNumPieces());
 				ge.addPlayer(new Player(ngp.getP1Name()));
 				ge.addPlayer(new Player(ngp.getP2Name()));
-				gp = new GamePanel(frame, ngp.getGameSize(), ngp.getCoords());
+				gp = new GamePanel(frame, ngp.getGameSize(), ngp.getCoords(), this);
 				ge.setGc(new GameControl(ge, gp, frame));
 				changePanel(gp);
 			}
 			
+		}
+		
+		if(arg0.getActionCommand().equals("Load Game")) {
+			try {
+				FileInputStream fis = new FileInputStream("BoHSave.data");
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				GameState gs = (GameState) ois.readObject();
+				ge = gs.loadGameEngine();
+				gp = new GamePanel(frame, gs.getSize(), false, this);
+				ge.setGc(new GameControl(ge, gp, frame, gs));
+				changePanel(gp);
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		if(arg0.getActionCommand().equals("Settings")) {
@@ -134,6 +156,19 @@ public class MenuListener implements ActionListener{
 		}
 		
 		if(arg0.getActionCommand().equals("Rewind")) {
+		}
+		
+		if(arg0.getActionCommand().equals("Save Game")) {
+			try(ObjectOutputStream oos = new ObjectOutputStream(
+	                new FileOutputStream(new File("BoHSave.data")))) {
+				GameState gs = new GameState();
+				gs.saveData(gp, ge);
+	            oos.writeObject(gs);
+	            oos.flush();
+	        } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		if(arg0.getActionCommand().equals("coords")) {

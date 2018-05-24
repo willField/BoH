@@ -11,6 +11,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import controllers.MenuListener;
 import controllers.MovementControl;
 
 public class GamePanel extends JPanel{
@@ -30,7 +31,7 @@ public class GamePanel extends JPanel{
 	private GameTextArea textArea = new GameTextArea();
 	private HexButton focus;
 
-	public GamePanel(JFrame frame, int boardSize, Boolean coords){
+	public GamePanel(JFrame frame, int boardSize, Boolean coords, MenuListener ml){
 		this.coords = coords;
 		this.frame = frame;
 		this.boardSize = boardSize;
@@ -40,7 +41,7 @@ public class GamePanel extends JPanel{
 		this.setLayout(new BorderLayout());
 		loadBoard();
 		cropBoard();
-		this.add(new GameMenuBar(frame, this), BorderLayout.NORTH);
+		this.add(new GameMenuBar(frame, this, ml), BorderLayout.NORTH);
 		this.add(textArea, BorderLayout.SOUTH);
 				
 		frame.setSize(new Dimension(boardSize*91+45, boardSize * 88 + 80));

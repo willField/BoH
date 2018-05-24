@@ -14,6 +14,7 @@ import controllers.MenuListener;
 public class MenuPanel extends JPanel{
 	
 	private JFrame frame;
+	private MenuListener ml;
 	
 	public MenuPanel(JFrame frame){
 		this.frame = frame;
@@ -23,6 +24,7 @@ public class MenuPanel extends JPanel{
 		
 		
 		// Create menu buttons with action listeners
+		ml = new MenuListener(frame, this);
 		
 		this.add(createButton("New Game", Color.GREEN));
 		this.add(createButton("Load Game", Color.BLUE));
@@ -32,7 +34,7 @@ public class MenuPanel extends JPanel{
 	
 	private JButton createButton(String title, Color color) {
 		JButton button = new JButton(title);
-		MenuListener ml = new MenuListener(frame, this);
+		
 		ButtonHover bh = new ButtonHover(button, color);
 		button.setBackground(null);
 		button.setForeground(color);
