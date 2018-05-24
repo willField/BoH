@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 import controllers.GameControl;
 import model.pieces.Archer;
@@ -15,8 +16,13 @@ public class GameEngine {
 	
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private Player currentPlayer;
+	private ArrayList<GameState> history = new ArrayList<GameState>();
 	
 	
+	public void setHistory(ArrayList<GameState> history) {
+		this.history = history;
+	}
+
 	public void setPlayers(ArrayList<Player> players) {
 		this.players = players;
 	}
@@ -82,5 +88,13 @@ public class GameEngine {
 
 	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
+	}
+
+	public ArrayList<GameState> getHistory() {
+		return history;
+	}
+
+	public void addToHistory(GameState gs) {
+		history.add(gs);
 	}
 }

@@ -156,6 +156,18 @@ public class MenuListener implements ActionListener{
 		}
 		
 		if(arg0.getActionCommand().equals("Rewind")) {
+			if(ge.getHistory().size() == 0) {
+				JOptionPane.showMessageDialog(ngp, "There are no turns left to undo.",
+						"Rewind", JOptionPane.ERROR_MESSAGE);
+			}
+			else {
+				GameState gs = ge.getHistory().get(ge.getHistory().size()-1);
+				ge = gs.loadGameEngine();
+				frame.getContentPane().remove(gp);
+				gp = new GamePanel(frame, gs.getSize(), false, this);
+				ge.setGc(new GameControl(ge, gp, frame, gs));
+				changePanel(gp);
+			}
 		}
 		
 		if(arg0.getActionCommand().equals("Save Game")) {

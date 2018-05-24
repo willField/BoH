@@ -23,9 +23,18 @@ public class GameState implements Serializable {
 	private int size;
 	private int numPieces;
 	private String playerTurnName;
+	private ArrayList<GameState> gameStates = new ArrayList<GameState>();
 
-	
-	
+	public ArrayList<GameState> getGameStates() {
+		return gameStates;
+	}
+
+	public void saveGameStates(GameEngine ge) {
+		for (GameState gs : ge.getHistory()) {
+			gameStates.add(gs);
+		}
+	}
+
 	public void saveNames(ArrayList<Player> players, GamePanel gp) {
 		int i = 0;
 		for (Player player : players) {
@@ -59,13 +68,18 @@ public class GameState implements Serializable {
 	public void saveP1Pieces(Player player, GamePanel gp) {
 		for (Piece piece : player.getPieces()) {
 			player1Pieces.add(piece.toString());
-		}
-		for (HexButton button : gp.getPieceLocations()) {
-			if (button.getPiece().getPlayer() == player) {
-				int[] xy = new int[2];
-				xy[0] = button.getHexX();
-				xy[1] = button.getHexY();
-				player1PieceLocations.add(xy);
+			System.out.println(piece.toString());
+
+			for (HexButton button : gp.getPieceLocations()) {
+				if (button.getPiece() == piece) {
+					if (button.getPiece().getPlayer() == player) {
+						int[] xy = new int[2];
+						xy[0] = button.getHexX();
+						xy[1] = button.getHexY();
+						System.out.println(xy[0] + ", " + xy[1]);
+						player1PieceLocations.add(xy);
+					}
+				}
 			}
 		}
 
@@ -74,13 +88,18 @@ public class GameState implements Serializable {
 	public void saveP2Pieces(Player player, GamePanel gp) {
 		for (Piece piece : player.getPieces()) {
 			player2Pieces.add(piece.toString());
-		}
-		for (HexButton button : gp.getPieceLocations()) {
-			if (button.getPiece().getPlayer() == player) {
-				int[] xy = new int[2];
-				xy[0] = button.getHexX();
-				xy[1] = button.getHexY();
-				player2PieceLocations.add(xy);
+			System.out.println(piece.toString());
+
+			for (HexButton button : gp.getPieceLocations()) {
+				if (button.getPiece() == piece) {
+					if (button.getPiece().getPlayer() == player) {
+						int[] xy = new int[2];
+						xy[0] = button.getHexX();
+						xy[1] = button.getHexY();
+						System.out.println(xy[0] + ", " + xy[1]);
+						player2PieceLocations.add(xy);
+					}
+				}
 			}
 		}
 
@@ -91,6 +110,7 @@ public class GameState implements Serializable {
 		size = ge.getGAME_SIZE();
 		numPieces = ge.getNUM_PIECES();
 		setPlayerTurnName(ge.getCurrentPlayer().getName());
+		saveGameStates(ge);
 
 	}
 
@@ -99,6 +119,8 @@ public class GameState implements Serializable {
 		int i = 0;
 
 		GameEngine ge = new GameEngine(size, numPieces);
+		ge.setHistory(getGameStates());
+
 		for (String name : playerNames) {
 			Player player = new Player(name);
 			if (i == 0) {

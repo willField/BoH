@@ -26,7 +26,11 @@ public class GameControl {
 		this.gp = gp;
 		this.frame = frame;
 		
+		ge.setCurrentPlayer(ge.getPlayers().get(0));
 		assignPlayerStartPieces();
+		GameState gs = new GameState();
+		gs.saveData(gp, ge);
+		ge.addToHistory(gs);
 		playerTurn(ge.getPlayers().get(0));
 	}
 	
@@ -35,6 +39,7 @@ public class GameControl {
 		this.gp = gp;
 		this.frame = frame;
 		this.gs = gs;
+		
 		
 		restorePlayerPieceLocations();
 		for(Player player : ge.getPlayers()) {
@@ -83,6 +88,9 @@ public class GameControl {
 	}
 	
 	public void nextTurn() {
+		GameState gs = new GameState();
+		gs.saveData(gp, ge);
+		ge.addToHistory(gs);
 		playerTurn(nextPlayer(currentPlayer));
 	}
 	

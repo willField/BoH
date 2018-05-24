@@ -45,7 +45,7 @@ public class GameMenuBar extends JMenuBar{
 		rewind.setFocusable(false);
 		rewind.setBackground(null);
 		rewind.setForeground(Color.RED);
-		rewind.addActionListener(new MenuListener(frame , panel));
+		rewind.addActionListener(ml);
 		rewind.addMouseListener(new ButtonHover(rewind, Color.RED));
 		
 		save.setBorder(new CompoundBorder(new LineBorder(Color.BLUE),
