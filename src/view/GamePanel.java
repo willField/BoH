@@ -50,23 +50,15 @@ public class GamePanel extends JPanel{
 	}
 	
 	private void cropBoard() {
-		
-		int xAStart = 0;
-		int xVisibleLength = (boardSize + 1 ) / 2;
-		int xVisibleStart = (boardSize - xVisibleLength)/2;
-		int xBStart = xVisibleLength + xVisibleStart;
 
 		int visStart;
 		boolean left = true;
 		int middle;
-		
+
 		// TODO: Board crop: (only works for boardSize 9 currently)
 		// only odd values of boardSize will work, needs adjusting for 5, 7, 11, 13, 15
 
-		System.out.println("Board Size: " + boardSize);
-
 		if(boardSize % 2 != 0) {
-			System.out.println("Odd");
 			visStart = Math.round(boardSize / 2);
 			if(visStart % 2 != 0) {
 				left = false;
@@ -74,18 +66,15 @@ public class GamePanel extends JPanel{
 			middle =  visStart;
 		}
 		else {
-			System.out.println("Even");
 			visStart = boardSize / 2;
+			if(visStart % 2 == 0) {
+				left = false;
+			}
 			middle = visStart - 1;
 			for(int i = 0; i < boardSize; i++) {
-				System.out.println("In loop");
 				board[boardSize - 1][i].setVisible(false);
 			}
 		}
-
-		System.out.println("Middle Board: " + middle);
-		System.out.println("Left: " + left);
-
 
 		int piecesRemoved = 0;
 		int piecesNeedRemove = 1;
@@ -94,18 +83,14 @@ public class GamePanel extends JPanel{
 		for(int i = middle - 1; i >= 0; i--) {
 			int leftSide = 0;
 			int rightSide = 0;
-			System.out.println("i: " + i);
-			System.out.println("Left: " + left);
 			if(left == true) {
 				while(piecesRemoved != piecesNeedRemove) {
 					if(piecesRemoved % 2 == 0) {
-						System.out.println("leftSide: " + leftSide);
 						board[i][leftSide].setVisible(false);
 						piecesRemoved++;
 						leftSide++;
 					}
 					else {
-						System.out.println("rightSide: " + rightSide);
 						board[i][(boardSize - 1) - rightSide].setVisible(false);
 						piecesRemoved++;
 						rightSide++;
@@ -115,13 +100,11 @@ public class GamePanel extends JPanel{
 			else if(left == false) {
 				while(piecesRemoved != piecesNeedRemove) {
 					if(piecesRemoved % 2 == 0) {
-						System.out.println("rightSide: " + rightSide);
 						board[i][(boardSize - 1) - rightSide].setVisible(false);
 						piecesRemoved++;
 						rightSide++;
 					}
 					else {
-						System.out.println("leftSide: " + leftSide);
 						board[i][leftSide].setVisible(false);
 						piecesRemoved++;
 						leftSide++;
@@ -134,23 +117,18 @@ public class GamePanel extends JPanel{
 
 		piecesRemoved = 0;
 		piecesNeedRemove = 1;
-		System.out.println("Left: " + left);
 
 		for(int i = middle + 1; i < boardSize; i++) {
 			int leftSide = 0;
 			int rightSide = 0;
-			System.out.println("i: " + i);
-			System.out.println("Left: " + left);
 
 			if (left == true) {
 				while (piecesRemoved != piecesNeedRemove) {
 					if (piecesRemoved % 2 == 0) {
-						System.out.println("leftSide: " + leftSide);
 						board[i][leftSide].setVisible(false);
 						piecesRemoved++;
 						leftSide++;
 					} else {
-						System.out.println("rightSide: " + rightSide);
 						board[i][(boardSize - 1) - rightSide].setVisible(false);
 						piecesRemoved++;
 						rightSide++;
@@ -159,12 +137,10 @@ public class GamePanel extends JPanel{
 			} else if(left == false) {
 				while (piecesRemoved != piecesNeedRemove) {
 					if (piecesRemoved % 2 == 0) {
-						System.out.println("rightSide: " + rightSide);
 						board[i][(boardSize - 1) - rightSide].setVisible(false);
 						piecesRemoved++;
 						rightSide++;
 					} else {
-						System.out.println("leftSide: " + leftSide);
 						board[i][leftSide].setVisible(false);
 						piecesRemoved++;
 						leftSide++;
