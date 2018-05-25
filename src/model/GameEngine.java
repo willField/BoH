@@ -1,11 +1,11 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 import controllers.GameControl;
 import model.pieces.Archer;
 import model.pieces.Footman;
+import model.pieces.Horsemen;
 import model.pieces.Piece;
 import model.pieces.Pikeman;
 
@@ -36,14 +36,47 @@ public class GameEngine {
 	}
 	
 	public void addPlayerStartingPieces() {
-		for(Player player : players) {
+		for(int i = 0; i < players.size(); i++) {
 			
 			// TODO: implement pieces based on chosen number of pieces in game
-			player.addPiece(new Footman(player));
-			player.addPiece(new Pikeman(player));
-			player.addPiece(new Archer(player));
-			player.addPiece(new Pikeman(player)); 
-			player.addPiece(new Footman(player));
+			if(i == 0) {
+				
+				players.get(i).addPiece(new Footman(players.get(i)));
+				players.get(i).addPiece(new Pikeman(players.get(i)));
+				players.get(i).addPiece(new Archer(players.get(i)));
+				players.get(i).addPiece(new Pikeman(players.get(i)));
+				players.get(i).addPiece(new Footman(players.get(i)));
+				
+				if(NUM_PIECES == 2) {
+					players.get(i).addPiece(new Footman(players.get(i)));
+					players.get(i).addPiece(new Pikeman(players.get(i)));
+					players.get(i).addPiece(new Archer(players.get(i)));
+					players.get(i).addPiece(new Archer(players.get(i)));
+					players.get(i).addPiece(new Pikeman(players.get(i)));
+					players.get(i).addPiece(new Footman(players.get(i)));
+				}
+			}
+			
+			else if(i == 1) {
+				
+				if(NUM_PIECES == 2) {
+					players.get(i).addPiece(new Footman(players.get(i)));
+					players.get(i).addPiece(new Horsemen(players.get(i)));
+					players.get(i).addPiece(new Archer(players.get(i)));
+					players.get(i).addPiece(new Archer(players.get(i)));
+					players.get(i).addPiece(new Horsemen(players.get(i)));
+					players.get(i).addPiece(new Footman(players.get(i)));
+				}
+				
+				players.get(i).addPiece(new Footman(players.get(i)));
+				players.get(i).addPiece(new Horsemen(players.get(i)));
+				players.get(i).addPiece(new Archer(players.get(i)));
+				players.get(i).addPiece(new Horsemen(players.get(i)));
+				players.get(i).addPiece(new Footman(players.get(i)));
+				
+				
+			}
+			
 		}
 	}
 	

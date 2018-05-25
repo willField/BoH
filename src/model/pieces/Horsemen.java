@@ -11,12 +11,16 @@ import model.Player;
 
 public class Horsemen extends Piece {
 
-	private int strength;
-	private int moves;
 	private ImageIcon icon;
 	private Player player;
+	protected final int STR = 2;
+	protected final int HEALTH = 5;
+	protected final int MOVES = 1;
 	
 	public Horsemen(Player player) {
+		strength = STR;
+		health = HEALTH;
+		moves = MOVES;
 		this.setPlayer(player);
 		try {
 			icon = new ImageIcon(ImageIO.read(getClass().getResource("/horse.png")));
@@ -24,6 +28,21 @@ public class Horsemen extends Piece {
 		
 		}
 	
+	}
+	@Override
+	public int getSTR() {
+		return STR;
+	}
+	@Override
+	public int getMOVES() {
+		return MOVES;
+	}
+	
+	@Override
+	public void resetStats() {
+		strength = STR;
+		health = HEALTH;
+		moves = MOVES;
 	}
 	
 	@Override

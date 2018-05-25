@@ -1,7 +1,5 @@
 package model.pieces;
 
-import java.awt.Image;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -10,14 +8,17 @@ import javax.swing.ImageIcon;
 import model.Player;
 
 public class Footman extends Piece {
-	
-	private int strength;
-	private int moves;
-	private Image image;
+
 	private ImageIcon icon;
 	private Player player;
+	protected final int STR = 1;
+	protected final int HEALTH = 3;
+	protected final int MOVES = 0;
 	
 	public Footman(Player player) {
+		strength = STR;
+		health = HEALTH;
+		moves = MOVES;
 		this.setPlayer(player);
 		try {
 			icon = new ImageIcon(ImageIO.read(getClass().getResource("/helmet.png")));
@@ -25,6 +26,21 @@ public class Footman extends Piece {
 		
 		}
 	
+	}
+	@Override
+	public int getSTR() {
+		return STR;
+	}
+	@Override
+	public int getMOVES() {
+		return MOVES;
+	}
+	
+	@Override
+	public void resetStats() {
+		strength = STR;
+		health = HEALTH;
+		moves = MOVES;
 	}
 	
 	@Override

@@ -8,6 +8,7 @@ public class Player {
 
 	private String name;
 	private ArrayList<Piece> pieces = new ArrayList<Piece>();
+	private Boolean usedUndo = false;
 	
 	public Player(String name){
 		this.setName(name);
@@ -27,5 +28,13 @@ public class Player {
 
 	public void addPiece(Piece piece) {
 		pieces.add(piece);
+	}
+
+	public Boolean getUsedUndo() {
+		return usedUndo;
+	}
+
+	public void setUsedUndo(Boolean usedUndo) {
+		this.usedUndo = usedUndo;
 	}
 }

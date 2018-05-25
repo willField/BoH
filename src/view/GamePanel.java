@@ -19,12 +19,13 @@ public class GamePanel extends JPanel{
 	private JFrame frame;
 	private HexButton[][] board;
 	private MovementControl mc;
+	private GameTimer gt;
 	
 	public void setBoard(HexButton[][] board) {
 		this.board = board;
 	}
 
-	private int boardSize;
+	private int boardSize, numPieces;
 	private Boolean coords;
 	private ArrayList<HexButton> startingLocations = new ArrayList<HexButton>();
 	private ArrayList<HexButton> pieceLocations;
@@ -35,6 +36,7 @@ public class GamePanel extends JPanel{
 		this.coords = coords;
 		this.frame = frame;
 		this.boardSize = boardSize;
+		numPieces = ml.getNumPieces() ;
 		board = new HexButton[boardSize][boardSize];
 		this.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10), new LineBorder(Color.RED)));
 		this.setBackground(Color.BLACK);
@@ -135,9 +137,14 @@ public class GamePanel extends JPanel{
 	}
 
 	public ArrayList<HexButton> getStartingLocations() {
+		int extraRow = 0;
+		if(numPieces == 2) {
+			extraRow = 1;
+		}
 		for(int i = 0; i < boardSize; i++) {
 			for(int j = 0; j < boardSize; j++) {
-				if(board[i][j].isVisible() && (i == 0 || i == boardSize-1)) {
+				if(board[i][j].isVisible() && (i == 0 || i == extraRow || 
+						i == boardSize-1 || i == boardSize-1-extraRow)) {
 					startingLocations.add(board[i][j]);
 				}
 			}
@@ -163,6 +170,14 @@ public class GamePanel extends JPanel{
 
 	public void setMc(MovementControl mc) {
 		this.mc = mc;
+	}
+
+	public GameTimer getGt() {
+		return gt;
+	}
+
+	public void setGt(GameTimer gt) {
+		this.gt = gt;
 	}
 	
 	

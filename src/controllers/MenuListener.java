@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -31,6 +32,8 @@ public class MenuListener implements ActionListener{
 	private NewGamePanel ngp;
 	private GamePanel gp;
 	private GameEngine ge;
+	private int numPieces;
+	private GameControl gc;
 	
 	public MenuListener(JFrame frame, JPanel panel){
 		this.frame= frame;
@@ -67,17 +70,20 @@ public class MenuListener implements ActionListener{
 			}
 			
 			else {
+				this.setNumPieces(ngp.getNumPieces());
 				ge = new GameEngine(ngp.getGameSize(),ngp.getNumPieces());
 				ge.addPlayer(new Player(ngp.getP1Name()));
 				ge.addPlayer(new Player(ngp.getP2Name()));
 				gp = new GamePanel(frame, ngp.getGameSize(), ngp.getCoords(), this);
-				ge.setGc(new GameControl(ge, gp, frame));
+				gc = new GameControl(ge, gp, frame);
+				ge.setGc(gc);
+				gp.getGt().getTimer().start();
 				changePanel(gp);
 			}
 			
 		}
 		
-		if(arg0.getActionCommand().equals("Load Game")) {
+		if(arg0.getActionCommand().equals("Load Game") || arg0.getActionCommand().equals("Load")) {
 			try {
 				FileInputStream fis = new FileInputStream("BoHSave.data");
 				ObjectInputStream ois = new ObjectInputStream(fis);
@@ -111,42 +117,48 @@ public class MenuListener implements ActionListener{
 		}
 		
 		if(arg0.getActionCommand().equals("Strength")) {
-			if(gp.getFocus() == null) {
+			if(gp.getFocus() == null || gp.getFocus().getPiece() == null) {
 				JOptionPane.showMessageDialog(ngp, "You must select a piece before changing mode.",
 						"Unit Mode", JOptionPane.ERROR_MESSAGE);
 			}
-			else if(gp.getFocus().getPiece().getStrength() == 0){
-				gp.getFocus().getPiece().setStrength(1);
+			else if (gp.getFocus().getPiece().getStrength() == gp.getFocus().getPiece().getSTR()){
+				gp.getFocus().getPiece().resetStats();
+				gp.getFocus().getPiece().setStrength(gp.getFocus().getPiece().getStrength()+1);
 				gp.getMc().showAvailableMoves(gp.getFocus(), gp);
 				GameBoardUtilities gu = new GameBoardUtilities(gp);
-				gu.transferFocus();
-			}
-			else{
-				GameBoardUtilities gu = new GameBoardUtilities(gp);
-				gp.getFocus().getPiece().setStrength(0);
 				gu.recolor();
 				gu.removeNonPieceListeners();
-				gu.removeNonPlayerPieceListeners(gp.getFocus().getPiece().getPlayer());
 				gp.getFocus().setColor(Color.BLUE);
 				gp.getMc().showAvailableMoves(gp.getFocus(), gp);
+				gu.transferFocus();
+			}
+			else {
+				gp.getFocus().getPiece().resetStats();
+				gp.getMc().showAvailableMoves(gp.getFocus(), gp);
+				GameBoardUtilities gu = new GameBoardUtilities(gp);
 				gu.transferFocus();
 			}
 		}
 		
 		if(arg0.getActionCommand().equals("Movement")) {
-			if(gp.getFocus() == null) {
+			if(gp.getFocus() == null || gp.getFocus().getPiece() == null) {
 				JOptionPane.showMessageDialog(ngp, "You must select a piece before changing mode.",
 						"Unit Mode", JOptionPane.ERROR_MESSAGE);
 			}
-			else if(gp.getFocus().getPiece().getMoves() == 0){
-				gp.getFocus().getPiece().setMoves(1);
-				gp.getMc().showAvailableMoves(gp.getFocus(), gp);
+			else if(gp.getFocus().getPiece().getMoves() == gp.getFocus().getPiece().getMOVES()){
+				gp.getFocus().getPiece().resetStats();
 				GameBoardUtilities gu = new GameBoardUtilities(gp);
+				gp.getFocus().getPiece().setMoves(gp.getFocus().getPiece().getMoves()+1);
+				gu.recolor();
+				gu.removeNonPieceListeners();
+				gp.getFocus().setColor(Color.BLUE);
+				gp.getMc().showAvailableMoves(gp.getFocus(), gp);
 				gu.transferFocus();
 			}
-			else{
+			
+			else {
 				GameBoardUtilities gu = new GameBoardUtilities(gp);
-				gp.getFocus().getPiece().setMoves(0);
+				gp.getFocus().getPiece().resetStats();
 				gu.recolor();
 				gu.removeNonPieceListeners();
 				gp.getFocus().setColor(Color.BLUE);
@@ -155,12 +167,29 @@ public class MenuListener implements ActionListener{
 			}
 		}
 		
-		if(arg0.getActionCommand().equals("Rewind")) {
-			if(ge.getHistory().size() == 0) {
+		if(arg0.getActionCommand().equals("timer")) {
+			gp.getGt().reduceTime();
+			if(gp.getGt().getTime() < 6) {
+				gp.getGt().timeWarning();
+			}
+			if(gp.getGt().getTime() < 1) {
+				gc.nextTurn();
+				
+			}
+		}
+		
+		if(arg0.getActionCommand().equals("Replay")) {
+			// TODO: doit
+		}
+		
+		if(arg0.getActionCommand().equals("Undo")) {
+			if(ge.getHistory().size() < 1) {
 				JOptionPane.showMessageDialog(ngp, "There are no turns left to undo.",
 						"Rewind", JOptionPane.ERROR_MESSAGE);
 			}
 			else {
+		
+				
 				GameState gs = ge.getHistory().get(ge.getHistory().size()-1);
 				ge = gs.loadGameEngine();
 				frame.getContentPane().remove(gp);
@@ -178,7 +207,6 @@ public class MenuListener implements ActionListener{
 	            oos.writeObject(gs);
 	            oos.flush();
 	        } catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -195,6 +223,14 @@ public class MenuListener implements ActionListener{
 		if(arg0.getActionCommand().equals("Exit")) {
 			System.exit(0);
 		}
+	}
+
+	public int getNumPieces() {
+		return numPieces;
+	}
+
+	public void setNumPieces(int numPieces) {
+		this.numPieces = numPieces;
 	}
 
 }

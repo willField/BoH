@@ -11,12 +11,17 @@ import model.Player;
 
 public class Pikeman extends Piece {
 
-	private int strength;
-	private int moves;
 	private ImageIcon icon;
 	private Player player;
+	protected final int STR = 1;
+	protected final int HEALTH = 3;
+	protected final int MOVES = 0;
 	
 	public Pikeman(Player player) {
+		strength = STR;
+		health = HEALTH;
+		moves = MOVES;
+		
 		this.setPlayer(player);
 		try {
 			icon = new ImageIcon(ImageIO.read(getClass().getResource("/spear.png")));
@@ -24,6 +29,21 @@ public class Pikeman extends Piece {
 		
 		}
 	
+	}
+	@Override
+	public int getSTR() {
+		return STR;
+	}
+	@Override
+	public int getMOVES() {
+		return MOVES;
+	}
+	
+	@Override
+	public void resetStats() {
+		strength = STR;
+		health = HEALTH;
+		moves = MOVES;
 	}
 	
 	@Override

@@ -1,12 +1,13 @@
-package view;
+package controllers;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-import controllers.MovementControl;
-import controllers.TurnControl;
+import view.GameBoardUtilities;
+import view.GamePanel;
+import view.HexButton;
 
 public class TurnListener implements MouseListener {
 
@@ -30,6 +31,11 @@ public class TurnListener implements MouseListener {
 		if (hex.getColor() != Color.BLUE) {
 			hex.setColor(Color.GREEN);
 		} 
+		
+		hex.setIcon(null);
+		String info = hex.getPiece().toString().substring(13) +"\nSTR: " 
+		+ hex.getPiece().getStrength()+"\nLIFE: " + hex.getPiece().getHealth();
+		hex.setText("<html><center>" + info.replaceAll("\\n", "<br>") + "</center></html>");
 	}
 
 	@Override
@@ -68,12 +74,19 @@ public class TurnListener implements MouseListener {
 		if (hex.getColor() != Color.BLUE) {
 			hex.setColor(Color.RED);
 		}
+		
+		hex.setIcon(hex.getPiece().getIcon());
+		hex.setText(null);
 	}
 
 	@Override
-	public void mousePressed(MouseEvent arg0) {}
+	public void mousePressed(MouseEvent arg0) {
+		
+	}
 
 	@Override
-	public void mouseReleased(MouseEvent arg0) {}
+	public void mouseReleased(MouseEvent arg0) {
+		
+	}
 
 }

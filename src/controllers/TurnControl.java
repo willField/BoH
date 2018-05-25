@@ -7,7 +7,6 @@ import model.GameEngine;
 import model.Player;
 import view.GamePanel;
 import view.HexButton;
-import view.TurnListener;
 
 public class TurnControl {
 	
@@ -20,6 +19,8 @@ public class TurnControl {
 		this.player = player;
 		this.ge = ge;
 		this.gp = gp;
+
+		gp.getGt().resetTimer();
 		
 		addPlayerAvailableListener();
 		

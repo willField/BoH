@@ -1,24 +1,17 @@
 package controllers;
 
-import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import view.GamePanel;
 import view.HexButton;
 
-public class CaptureListener implements MouseListener{
+public class InfoListener implements MouseListener{
 	
-	private HexButton button;
-	private GamePanel gp;
-	
-	CaptureListener(HexButton button, GamePanel gp){
-		this.button = button;
-		this.gp = gp;
+	private HexButton hex;
+
+	InfoListener(HexButton hex){
+		this.hex = hex;
 	}
-
-
-	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
@@ -27,13 +20,18 @@ public class CaptureListener implements MouseListener{
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		
+		// TODO Auto-generated method stub
+		hex.setIcon(null);
+		String info = hex.getPiece().toString().substring(13) +"\nSTR: " 
+		+ hex.getPiece().getStrength()+"\nLIFE: " + hex.getPiece().getHealth();
+		hex.setText("<html><center>" + info.replaceAll("\\n", "<br>") + "</center></html>");
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+		hex.setIcon(hex.getPiece().getIcon());
+		hex.setText(null);
 	}
 
 	@Override

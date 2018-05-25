@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,19 +18,32 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import controllers.MenuListener;
-import model.GameEngine;
 
 public class GameMenuBar extends JMenuBar{
 
 	private JButton back = new JButton("Back");
-	private JButton rewind = new JButton("Rewind");
+	private JButton rewind = new JButton("Undo");
 	private JButton strength = new JButton("Strength");
 	private JButton movement = new JButton("Movement");
 	private JButton save = new JButton("Save Game");
-	
+	private JButton replay = new JButton("Replay");
+	private JButton load = new JButton("Load");
+	private GameTimer gameTimer;
 	
 	GameMenuBar(JFrame frame, GamePanel panel, MenuListener ml){
 		JToolBar tb = new JToolBar();
+		gameTimer = new GameTimer(ml);
+		panel.setGt(gameTimer);
+		JPanel options = new JPanel();
+		GridBagConstraints a = new GridBagConstraints();
+		a.insets = new Insets(5,5,5,5);
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(5,5,5,5);
+		options.setBackground(null);
+		options.setLayout(new GridBagLayout());
+		options.setBorder(new CompoundBorder(new LineBorder(Color.BLUE),
+				new EmptyBorder(10,10,10,10)));
+		
 		back.setToolTipText("Exit to the Main Menu");
 		back.setBorder(new CompoundBorder(new LineBorder(Color.RED),
 				new EmptyBorder(10,10,10,10)));
@@ -40,21 +54,61 @@ public class GameMenuBar extends JMenuBar{
 		back.addMouseListener(new ButtonHover(back, Color.RED));
 		
 		
-		rewind.setBorder(new CompoundBorder(new LineBorder(Color.RED),
+		
+		
+		
+		rewind.setBorder(new CompoundBorder(new LineBorder(Color.CYAN),
 				new EmptyBorder(10,10,10,10)));
 		rewind.setFocusable(false);
 		rewind.setBackground(null);
-		rewind.setForeground(Color.RED);
+		rewind.setForeground(Color.CYAN);
 		rewind.addActionListener(ml);
-		rewind.addMouseListener(new ButtonHover(rewind, Color.RED));
+		rewind.addMouseListener(new ButtonHover(rewind, Color.CYAN));
 		
-		save.setBorder(new CompoundBorder(new LineBorder(Color.BLUE),
+		replay.setBorder(new CompoundBorder(new LineBorder(Color.RED),
+				new EmptyBorder(10,10,10,10)));
+		replay.setFocusable(false);
+		replay.setBackground(null);
+		replay.setForeground(Color.RED);
+		replay.addActionListener(ml);
+		replay.addMouseListener(new ButtonHover(replay, Color.RED));
+		
+		save.setBorder(new CompoundBorder(new LineBorder(Color.RED),
 				new EmptyBorder(10,10,10,10)));
 		save.setFocusable(false);
 		save.setBackground(null);
-		save.setForeground(Color.BLUE);
+		save.setForeground(Color.RED);
 		save.addActionListener(ml);
-		save.addMouseListener(new ButtonHover(save, Color.BLUE));
+		save.addMouseListener(new ButtonHover(save, Color.RED));
+		
+		load.setBorder(new CompoundBorder(new LineBorder(Color.BLUE),
+				new EmptyBorder(10,10,10,10)));
+		load.setFocusable(false);
+		load.setBackground(null);
+		load.setForeground(Color.BLUE);
+		load.addActionListener(ml);
+		load.addMouseListener(new ButtonHover(load, Color.BLUE));
+		
+		a.gridx = 0;
+		a.gridy = 0;
+		
+		options.add(back, a);
+		
+		
+		a.gridx = 1;
+		options.add(save, a);
+		
+		
+		a.gridx = 2;
+		options.add(rewind, a);
+		
+		a.gridy = 1;
+		a.gridx = 0;
+		a.gridwidth = 3;
+		
+		JLabel optionsLabel = new JLabel("Game Options");
+		optionsLabel.setForeground(Color.WHITE);
+		options.add(optionsLabel, a);
 		
 		JPanel unitModes = new JPanel();
 		unitModes.setBackground(null);
@@ -62,8 +116,7 @@ public class GameMenuBar extends JMenuBar{
 		unitModes.setBorder(new CompoundBorder(new LineBorder(Color.BLUE),
 				new EmptyBorder(10,10,10,10)));
 		
-		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(5,5,5,5);
+
 		strength.setToolTipText("UNIT MODE: Strength allows the unit to \ncount as two when capturing an enemy piece.");
 		strength.setBorder(new CompoundBorder(new LineBorder(Color.RED),
 				new EmptyBorder(10,10,10,10)));
@@ -72,6 +125,7 @@ public class GameMenuBar extends JMenuBar{
 		strength.setForeground(Color.RED);
 		strength.addActionListener(new MenuListener(panel));
 		strength.addMouseListener(new ButtonHover(strength, Color.RED));
+		strength.setMnemonic(KeyEvent.VK_A);
 		
 		movement.setToolTipText("UNIT MODE: Movement doubles the range \nin which a unit can move this turn.");
 		movement.setBorder(new CompoundBorder(new LineBorder(Color.GREEN),
@@ -81,6 +135,7 @@ public class GameMenuBar extends JMenuBar{
 		movement.setForeground(Color.GREEN);
 		movement.addActionListener(new MenuListener(panel));
 		movement.addMouseListener(new ButtonHover(movement, Color.GREEN));
+		movement.setMnemonic(KeyEvent.VK_S);
 		
 		c.gridx = 0;
 		c.gridy = 0;
@@ -97,22 +152,27 @@ public class GameMenuBar extends JMenuBar{
 		c.gridy = 1;
 		
 		JLabel modesLabel = new JLabel("Unit Modes");
-		modesLabel.setForeground(Color.BLUE);
+		modesLabel.setForeground(Color.WHITE);
 		unitModes.add(modesLabel, c);
 		
-		tb.setLayout(new FlowLayout());
+		//tb.setLayout(new FlowLayout());
 		tb.setBackground(Color.BLACK);
 		tb.setBorderPainted(false);
 		tb.setBorder(new EmptyBorder(10,10,10,10));
 		this.setBackground(Color.BLACK);
 		tb.setRollover(true);
-		tb.add(back);
+		//tb.add(back);
+		//tb.addSeparator();
+		tb.add(options);
+		//tb.addSeparator();
+		//tb.add(replay);
+		//tb.addSeparator();
+		//tb.add(rewind);
 		tb.addSeparator();
-		tb.add(rewind);
-		tb.addSeparator();
-		tb.add(save);
-		tb.addSeparator();
+		
 		tb.add(unitModes);
+		tb.addSeparator();
+		tb.add(gameTimer);
 		tb.setFloatable(false);
 		this.add(tb);
 		this.setBorderPainted(false);

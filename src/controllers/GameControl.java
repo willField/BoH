@@ -9,6 +9,7 @@ import model.GameEngine;
 import model.GameState;
 import model.Player;
 import model.pieces.Piece;
+import view.GameBoardUtilities;
 import view.GamePanel;
 import view.HexButton;
 
@@ -50,6 +51,7 @@ public class GameControl {
 		
 	}
 	
+	
 	public void assignPlayerStartPieces() {
 		
 		ge.addPlayerStartingPieces();
@@ -88,6 +90,13 @@ public class GameControl {
 	}
 	
 	public void nextTurn() {
+		for(Piece piece : ge.getAllPlayerPieces()) 
+			piece.resetStats();
+		
+		GameBoardUtilities gu = new GameBoardUtilities(gp);
+		gu.removeAllListeners();
+		gu.recolor();
+		gu.transferFocus();
 		GameState gs = new GameState();
 		gs.saveData(gp, ge);
 		ge.addToHistory(gs);

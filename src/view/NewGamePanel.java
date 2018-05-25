@@ -19,8 +19,10 @@ import controllers.MenuListener;
 public class NewGamePanel extends JPanel{
 	
 	static final int MAX_GAME_SIZE = 15;
-	static final int MIN_GAME_SIZE = 5;
+	static final int MIN_GAME_SIZE = 1;
 	static final int GAME_SIZE_INIT = 9;
+	
+	
 	
 	private Boolean coords = false;
 	private JTextField p1Name, p2Name;
@@ -70,7 +72,17 @@ public class NewGamePanel extends JPanel{
 		this.add(createLabel("Board Size: ", Color.RED));
 		this.add(createSlider("gameSize", Color.RED));
 		this.add(createLabel("Number of Pieces: ", Color.RED));
-		this.add(createSlider("numPieces", Color.RED));
+		
+		numPieces = new JSlider(JSlider.HORIZONTAL, 1,3, 1);
+		numPieces.setBackground(null);
+		numPieces.setForeground(Color.RED);
+		numPieces.setMajorTickSpacing(1);
+		numPieces.setMinorTickSpacing(1);
+		numPieces.setPaintTicks(true);
+		numPieces.setPaintLabels(true);
+		
+		this.add(numPieces);
+		
 		this.add(createLabel("Show Coords: ", Color.CYAN));
 		this.add(showCoords);
 		this.add(createButton("Back", Color.GRAY));

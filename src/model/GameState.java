@@ -2,6 +2,8 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import model.pieces.Archer;
 import model.pieces.Footman;
@@ -14,7 +16,7 @@ import view.HexButton;
 public class GameState implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	private transient Logger logger = Logger.getLogger("Game State");
 	private ArrayList<String> playerNames = new ArrayList<String>();
 	private ArrayList<String> player1Pieces = new ArrayList<String>();
 	private ArrayList<String> player2Pieces = new ArrayList<String>();
@@ -68,15 +70,14 @@ public class GameState implements Serializable {
 	public void saveP1Pieces(Player player, GamePanel gp) {
 		for (Piece piece : player.getPieces()) {
 			player1Pieces.add(piece.toString());
-			System.out.println(piece.toString());
-
 			for (HexButton button : gp.getPieceLocations()) {
 				if (button.getPiece() == piece) {
 					if (button.getPiece().getPlayer() == player) {
 						int[] xy = new int[2];
 						xy[0] = button.getHexX();
 						xy[1] = button.getHexY();
-						System.out.println(xy[0] + ", " + xy[1]);
+						logger.log(Level.INFO,piece.toString() +
+								" @ location: "+"[" + xy[0]+ ", " + xy[1] + "]");
 						player1PieceLocations.add(xy);
 					}
 				}
@@ -88,21 +89,19 @@ public class GameState implements Serializable {
 	public void saveP2Pieces(Player player, GamePanel gp) {
 		for (Piece piece : player.getPieces()) {
 			player2Pieces.add(piece.toString());
-			System.out.println(piece.toString());
-
 			for (HexButton button : gp.getPieceLocations()) {
 				if (button.getPiece() == piece) {
 					if (button.getPiece().getPlayer() == player) {
 						int[] xy = new int[2];
 						xy[0] = button.getHexX();
 						xy[1] = button.getHexY();
-						System.out.println(xy[0] + ", " + xy[1]);
+						logger.log(Level.INFO,piece.toString() +
+								" @ location: "+"[" + xy[0]+ ", " + xy[1] + "]");
 						player2PieceLocations.add(xy);
 					}
 				}
 			}
 		}
-
 	}
 
 	public void saveData(GamePanel gp, GameEngine ge) {

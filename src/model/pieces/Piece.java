@@ -15,12 +15,17 @@ import model.Player;
  */
 public class Piece {
 	
-	private int strength = 0;
-	private int moves = 0;
+	
+	protected int strength;
+	protected int health;
+	protected int moves;
 	private Image image;
 	private ImageIcon icon;
 	private int[] location;
 	private Player player;
+	
+	public void resetStats() {
+	}
 	
 	public ImageIcon getIcon() {
 		return icon;
@@ -46,6 +51,10 @@ public class Piece {
 	public int getStrength() {
 		return strength;
 	}
+	
+	public int getHealth() {
+		return health;
+	}
 	public void setStrength(int strength) {
 		this.strength = strength;
 	}
@@ -54,6 +63,13 @@ public class Piece {
 	}
 	public void setMoves(int moves) {
 		this.moves = moves;
+	}
+	
+	public int getSTR() {
+		return 0;
+	}
+	public int getMOVES() {
+		return 0;
 	}
 	
 	
